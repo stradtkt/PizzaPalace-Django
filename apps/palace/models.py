@@ -62,3 +62,48 @@ class User(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
 
+class DeliveryTempAddressManager(models.Manager):
+    def validate_temp_address(self, postData):
+        errors = {}
+        if len(postData['street_address']) < 3:
+            errors['street_address'] = "Your street address must contain more characters than that" 
+        if len(postData['street_address']) > 50:
+            errors['street_address'] = "Your street address can be no longer than 50 characters"
+        if len(postData['city']) < 3:
+            errors['city'] = "Your street address must contain 3 or more characters" 
+        if len(postData['city']) > 50:
+            errors['city'] = "Your city can be no longer than 50 characters"
+        if len(postData['zip_code']) < 5:
+            errors['zip_code'] = "Your street address must contain 5 or more characters" 
+        if len(postData['zip_code']) > 9:
+            errors['zip_code'] = "Your city can be no longer than 9 characters"
+        return errors
+
+class DeliveryTempAddress(models.Model):
+    street_address = models.CharField(max_length=500)
+    apt_ste_floor = models.CharField(max_length=255, default=None)
+    number = models.IntegerField(default=0)
+    zip_code = models.CharField(max_length=20)
+    objects = DeliveryTempAddressManager()
+
+
+
+class Cart(models.Model):
+    creation_date = models.DateTimeField(verbose_name="creation date", auto_now_add=True)
+    checked_out = models.BooleanField(default=False, verbose_name=('checked out'))
+
+    class Meta:
+        verbose_name="cart"
+        verbose_name_plural="carts"
+        ordering=('-creation_date',)
+
+class Item(models.Model):
+    name = models.CharField(max_length=255)
+    desc = models.CharField(max_length=255)
+    price = models.DecimalField(max_digits=18, decimal_places=2)
+    qty = models.PositiveIntegerField()
+    image = models.ImageField()
+    cart = models.ForeignKey(Cart, related_name="cart", on_delete=models.DO_NOTHING)
+    def get_total_price(self):
+        return self.price * self.qty
+

@@ -10,7 +10,7 @@ import bcrypt
 
 
 def index(request):
-    return render(request, 'jobs/index.html')
+    return render(request, 'palace/index.html')
 
 def login(request):
     email = request.POST['email']
@@ -20,7 +20,7 @@ def login(request):
         is_pass = bcrypt.checkpw(password.encode('utf-8'), user[0].password.encode('utf-8'))
         if is_pass:
             request.session['id'] = user[0].id
-            return redirect('/dashboard')
+            return redirect('/')
         else:
             messages.error(request, "Incorrect email and/or password")
             return redirect('/')

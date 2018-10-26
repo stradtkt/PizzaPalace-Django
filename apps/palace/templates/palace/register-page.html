@@ -1,5 +1,42 @@
-{% extendes 'palace/layout.html' %}
-{% block title %} | {{block.super}} {% endblock %}
+{% extends 'palace/layout.html' %}
+{% block title %} Sign Up | {{block.super}} {% endblock %}
 {% block content %}
+
+
+<section>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12"></div>
+            </div>
+        </div>
+    </header>
+</section>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 offset-3">
+                <div class="card p-5 mt-5 mb-5">
+                    <div class="card-header text-center">
+                        <h1>Register</h1>
+                    </div>
+                    <div class="card-body">
+                        <form action="login" method="POST">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="email" name="email" class="form-control" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" class="form-control" placeholder="Password">
+                            </div>
+                            <input type="submit" value="Login" class="btn btn-primary">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 {% endblock %}

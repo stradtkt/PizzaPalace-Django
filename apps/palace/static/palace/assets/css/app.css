@@ -1,0 +1,9 @@
+.navbar-nav li a {
+    color: red !important;
+    text-shadow: 1px 1px 1px whitesmoke;
+    font-weight: 700;
+    font-size: 16px !important;
+}
+body {
+    background: #eeeeee;
+}
