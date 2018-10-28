@@ -2,12 +2,14 @@
 {% block title %} | {{block.super}} {% endblock %}
 {% block content %}
 
-<section>
+<section id="home-section-1">
     <header>
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-
+                    <h1>Pizza Palace</h1>
+                    {% load static %}
+                    <img src="{% static 'palace/assets/favicon.ico' %}" alt="">
                 </div>
             </div>
         </div>

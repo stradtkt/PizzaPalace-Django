@@ -9,7 +9,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-10 offset-1">
-                    <h1>Using your address will help find the nearest store</h1>
+                    <p class="text-center lead">Using your address will help find the nearest store</p>
                 </div>
             </div>
         </div>
@@ -23,6 +23,17 @@
                         {% csrf_token %}
                         <div class="form-group">
                             <input type="text" name="street_address" class="form-control" placeholder="Street Address">
+                        </div>
+                        <div class="form-group">
+                            <select name="apt_ste_floor" class="form-control">
+                                <option value="None">None</option>
+                                <option value="Apartment">Apartment</option>
+                                <option value="Suite">Suite</option>
+                                <option value="Floor">Floor</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <input type="number" name="number" class="form-control" placeholder="Floor #">
                         </div>
                         <div class="form-group">
                             <input type="number" name="zip_code" class="form-control" placeholder="Zip Code">

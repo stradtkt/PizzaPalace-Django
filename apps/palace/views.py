@@ -4,9 +4,10 @@ from django.core.validators import validate_email
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.shortcuts import render, redirect
+import cart
 from .models import *
 import bcrypt
-# Create your views here.
+
 
 
 def index(request):
@@ -47,3 +48,39 @@ def register(request):
 def logout(request):
     request.session.clear()
     return redirect('/')
+
+def register_page(request):
+    return render(request, 'palace/register-page.html')
+
+def login_page(request):
+    return render(request, 'palace/login-page.html')
+
+def order_now(request):
+    return render(request, 'palace/order-now.html')
+
+def process_temp_address(request):
+    errors = DeliveryTempAddress.objects.validate_temp_address(request.POST)
+    if len(errors):
+        for tag, error in errors.items():
+            messages.error(request, error)
+        return redirect('/')
+    else:
+        street_address = request.POST['street_address']
+        apt_ste_floor = request.POST['apt_ste_floor']
+        number = request.POST['number']
+        zip_code = request.POST['zip_code']
+        DeliveryTempAddress.objects.create(street_address=street_address, apt_ste_floor=apt_ste_floor, number=number, zip_code=zip_code)
+        return redirect('/menu')
+
+
+#  Cart Commands
+
+def add_to_cart(request, item_id, quantity):
+    item = Item.objects.get(id=item_id)
+    cart = Cart(request)
+    cart.add(item, item.price, quantity)
+
+def remove_from_cart(request, item_id):
+    item = Item.objects.get(id=item_id)
+    cart = Cart(request)
+    cart.remove(item)
